@@ -1,0 +1,22 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom styles can be added below this line */
+body {
+  font-family: 'Arial', sans-serif;
+  @apply bg-gray-100;
+}
+
+.container {
+  @apply px-4 mx-auto max-w-7xl sm:px-6 lg:px-8;
+}
+
+.btn {
+  @apply px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700;
+}
+
+/* .input {
+  @apply w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline;
+} */
+
