@@ -15,7 +15,7 @@ function Workouts() {
 
   const fetchWorkouts = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/workouts?page=${currentPage}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/workouts?page=${currentPage}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }

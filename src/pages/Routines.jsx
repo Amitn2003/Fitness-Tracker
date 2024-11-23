@@ -15,12 +15,14 @@ function Routines() {
 
   const fetchRoutines = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/routines?page=${currentPage}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/routines?page=${currentPage}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       })
       const data = await res.json()
+
+      console.log(res)
       if (res.ok) {
         setRoutines(data.routines)
         setTotalPages(data.totalPages)
@@ -73,6 +75,7 @@ function Routines() {
           Next
         </button>
       </div>
+      <a href="/routines/add"> Add new routine</a>
     </div>
   )
 }

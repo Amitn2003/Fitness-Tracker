@@ -20,6 +20,7 @@ function AddRoutine() {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         })
+        console.log(response)
         const data = await response.json()
         setAvailableExercises(data.exercises)
       } catch (err) {

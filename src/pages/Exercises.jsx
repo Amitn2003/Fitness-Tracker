@@ -15,12 +15,14 @@ function Exercises() {
 
   const fetchExercises = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/exercises?page=${currentPage}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/exercises?page=${currentPage}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       })
+      console.log(res)
       const data = await res.json()
+
       if (res.ok) {
         setExercises(data.exercises)
         setTotalPages(data.totalPages)
