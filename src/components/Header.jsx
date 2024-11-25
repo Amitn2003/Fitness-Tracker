@@ -16,6 +16,8 @@ function Header() {
                 <li><Link to="/exercises">Exercises</Link></li>
                 <li><Link to="/routines">Routines</Link></li>
                 <li><Link to="/workouts">Workouts</Link></li>
+                <li><Link to="/start-workout">Start Workout</Link></li>
+                <li><Link to="/dashboard">Dashboard</Link></li>
                 <li><Link to="/profile">Profile</Link></li>
                 <li><Link to="/settings">Settings</Link></li>
                 <li><button onClick={logout}>Logout</button></li>

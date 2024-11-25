@@ -11,6 +11,10 @@ import Exercises from './pages/Exercises'
 import Routines from './pages/Routines'
 import AddRoutine from './pages/AddRoutine'
 import Workouts from './pages/Workouts'
+import StartWorkout from './pages/StartWorkout'
+import LogWorkout from './pages/LogWorkout'
+import Dashboard from './pages/Dashboard'
+
 
 function App() {
   return (
@@ -29,10 +33,13 @@ function App() {
               <Route path="/routines" element={<Routines />} />
               <Route path="/routines/add" element={<AddRoutine />} />
               <Route path="/workouts" element={<Workouts />} />
+              <Route path="/start-workout" element={<StartWorkout />} />
+              <Route path="/log-workout" element={<LogWorkout />} />
+              <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </main>
           <footer className="bg-gray-200 text-center py-4">
-            <p>&copy; 2023 Fitz Fitness Tracker. All rights reserved.</p>
+            <p>&copy; 2024 Fitsz Fitness Tracker. All rights reserved.</p>
           </footer>
         </div>
       </Router>

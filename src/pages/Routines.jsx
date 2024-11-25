@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
+import { Link } from 'react-router-dom'
 
 function Routines() {
   const [routines, setRoutines] = useState([])
@@ -21,8 +22,6 @@ function Routines() {
         }
       })
       const data = await res.json()
-
-      console.log(res)
       if (res.ok) {
         setRoutines(data.routines)
         setTotalPages(data.totalPages)
@@ -42,19 +41,24 @@ function Routines() {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Routines</h2>
-      <div className="space-y-4">
+      <Link to="/routines/add" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mb-4 inline-block">
+        Create New Routine
+      </Link>
+      <div className="space-y-
+4">
         {routines.map(routine => (
           <div key={routine._id} className="border p-4 rounded">
             <h3 className="font-bold">{routine.name}</h3>
             <p>{routine.description}</p>
-            <h4 className="font-semibold mt-2">Exercises:</h4>
-            <ul className="list-disc list-inside">
-              {routine.exercises.map(exercise => (
-                <li key={exercise._id}>
-                  {exercise.exercise.name} - {exercise.sets} sets, {exercise.reps} reps
-                </li>
-              ))}
-            </ul>
+            <p><strong>Difficulty:</strong> {routine.difficulty}</p>
+            <p><strong>Estimated Duration:</strong> {routine.estimatedDuration} minutes</p>
+            <p><strong>Workout Type:</strong> {routine.workoutType}</p>
+            <p><strong>Target Muscle Groups:</strong> {routine.targetMuscleGroups.join(', ')}</p>
+            <p><strong>Equipment:</strong> {routine.equipment.join(', ')}</p>
+            <p><strong>Tags:</strong> {routine.tags.join(', ')}</p>
+            <p><strong>Likes:</strong> {routine.likes}</p>
+            <p><strong>Times Used:</strong> {routine.timesUsed}</p>
+            <Link to={`/routines/${routine._id}`} className="text-blue-500 hover:underline">View Details</Link>
           </div>
         ))}
       </div>
@@ -75,10 +79,8 @@ function Routines() {
           Next
         </button>
       </div>
-      <a href="/routines/add"> Add new routine</a>
     </div>
   )
 }
 
 export default Routines
-

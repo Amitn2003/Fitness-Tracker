@@ -9,34 +9,56 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [darkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    const storedUser = JSON.parse(localStorage.getItem('user'))
-    if (token && storedUser) {
-      setUser(storedUser)
+    if (token) {
+      fetchUserProfile(token)
+    } else {
+      setLoading(false)
     }
-    setLoading(false)
   }, [])
+
+  const fetchUserProfile = async (token) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      if (response.ok) {
+        const data = await response.json()
+        setUser(data)
+      } else {
+        localStorage.removeItem('token')
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error)
+      localStorage.removeItem('token')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const login = async (email, password) => {
     try {
-      console.log(`${import.meta.env.VITE_API_URL}`)
       const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
       })
       const data = await response.json()
       if (response.ok) {
         localStorage.setItem('token', data.token)
-        localStorage.setItem('user', JSON.stringify(data.user))
-        setUser(data.user)
+        await fetchUserProfile(data.token)
+        return true
       } else {
-        throw new Error(data.message)
+        throw new Error(data.message || 'Login failed')
       }
     } catch (error) {
+      console.error('Login error:', error)
       throw error
     }
   }
@@ -45,45 +67,35 @@ export function AuthProvider({ children }) {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
       })
       const data = await response.json()
       if (response.ok) {
         localStorage.setItem('token', data.token)
-        localStorage.setItem('user', JSON.stringify(data.user))
-        setUser(data.user)
+        await fetchUserProfile(data.token)
+        return true
       } else {
-        throw new Error(data.message)
+        throw new Error(data.message || 'Registration failed')
       }
     } catch (error) {
+      console.error('Registration error:', error)
       throw error
     }
   }
 
   const logout = () => {
     localStorage.removeItem('token')
-    localStorage.removeItem('user')
     setUser(null)
-  }
-
-  const updateUser = (updatedUserData) => {
-    setUser(updatedUserData)
-    localStorage.setItem('user', JSON.stringify(updatedUserData))
-  }
-
-  const toggleDarkMode = () => {
-    setDarkMode(prevMode => !prevMode)
   }
 
   const value = {
     user,
     login,
     register,
-    logout,
-    updateUser,
-    darkMode,
-    toggleDarkMode,
+    logout
   }
 
   return (

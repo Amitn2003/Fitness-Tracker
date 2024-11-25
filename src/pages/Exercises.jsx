@@ -20,9 +20,7 @@ function Exercises() {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       })
-      console.log(res)
       const data = await res.json()
-
       if (res.ok) {
         setExercises(data.exercises)
         setTotalPages(data.totalPages)
@@ -47,8 +45,17 @@ function Exercises() {
           <div key={exercise._id} className="border p-4 rounded">
             <h3 className="font-bold">{exercise.name}</h3>
             <p>{exercise.description}</p>
-            <p><strong>Muscle Group:</strong> {exercise.muscleGroup}</p>
+            <p><strong>Muscle Groups:</strong> {exercise.muscleGroup.join(', ')}</p>
             <p><strong>Equipment:</strong> {exercise.equipment}</p>
+            <p><strong>Workout Type:</strong> {exercise.workoutType}</p>
+            <p><strong>Difficulty:</strong> {exercise.difficulty}</p>
+            <p><strong>Weight Type:</strong> {exercise.weightType}</p>
+            {exercise.youtubeLink && (
+              <p><strong>Tutorial:</strong> <a href={exercise.youtubeLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Watch on YouTube</a></p>
+            )}
+            {exercise.imageUrl && (
+              <img src={exercise.imageUrl} alt={exercise.name} className="mt-2 max-w-full h-auto" />
+            )}
           </div>
         ))}
       </div>
@@ -74,4 +81,3 @@ function Exercises() {
 }
 
 export default Exercises
-
